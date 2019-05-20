@@ -3,8 +3,8 @@ let createTab = url => new Promise((resolve, reject) => {
 });
 
 let executeScript = (tabId, func) => new Promise((resolve, reject) => {
-	let findAndClickButtonScript = `(${func})(${tabId})`;
-	chrome.tabs.executeScript(tabId, {code: findAndClickButtonScript}, resolve);
+	let script = `(${func})(${tabId})`;
+	chrome.tabs.executeScript(tabId, {code: script}, resolve);
 });
 
 let sleep = ms => new Promise(resolve => {
