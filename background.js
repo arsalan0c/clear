@@ -3,7 +3,6 @@ let createTab = url => new Promise((resolve, reject) => {
 });
 
 let executeScript = (tabId, func) => new Promise((resolve, reject) => {
-	newTabId = tabId;
 	let findAndClickButtonScript = `(${func})(${tabId})`;
 	chrome.tabs.executeScript(tabId, {code: findAndClickButtonScript}, resolve);
 });
@@ -55,4 +54,4 @@ let clickConfirmDeleteButton = (tabId) => {
 	}
 
 	return tabId;
-}
+};
