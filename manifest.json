@@ -11,5 +11,5 @@
 		"persistent": false,
 		"scripts": ["background.js"]
 	},
-	"permissions": ["tabs", "notifications", "https://*/*", "http://*/*"]
+	"permissions": ["https://*/*", "http://*/*"]
 }
