@@ -1,57 +1,86 @@
-let createTab = url => new Promise((resolve, reject) => {
-	chrome.tabs.create({url: url, selected: true}, resolve);
+const SEARCH_ACTIVITY_URL = "https://myactivity.google.com/privacyadvisor/search";
+const SLEEP_DURATION = 1000;
+
+const POS_RESULT_MSG = "Result: your search activity has been deleted."
+const NEG_RESULT_MSG = "Result: your search activity remains with Google.";
+const CREATE_TAB_ERR = "Error: failed to create a new tab.\n" + NEG_RESULT_MSG;
+const DELETE_ERR = "Error: failed to delete.\n" + NEG_RESULT_MSG;
+const CLOSE_ERR = "Error: failed to close created tab.\n" + POS_RESULT_MSG;
+const RETURN_ERR = "Error: failed to switch back to original tab.\n" + POS_RESULT_MSG;
+
+chrome.browserAction.onClicked.addListener((originalTab) => {
+	let newTabId;
+
+	createTab(SEARCH_ACTIVITY_URL, CREATE_TAB_ERR)
+		.then(newTab => {
+			if (!newTab) return Promise.reject(CREATE_TAB_ERR);
+			newTabId = newTab.id;
+		})
+		.then(() => executeFunction(newTabId, clickDeleteAllButton, DELETE_ERR))
+		.then(() => executeFunction(newTabId, clickConfirmDeleteButton, DELETE_ERR))
+		.then(() => sleep(SLEEP_DURATION))
+		.then(() => closeTab(newTabId, CLOSE_ERR))
+		.then(() => doesTabExist(originalTab.id))
+		.then(doesOriginalTabExist => {
+			// non-critical step
+			// if tab does not exist, assumes user closed deliberately
+			if (doesOriginalTabExist) return focusTab(originalTab.id, RETURN_ERR);
+		})
+		.then(() => alert(POS_RESULT_MSG))
+		.catch(err => alert(err));
 });
 
-let executeScript = (tabId, func) => new Promise((resolve, reject) => {
-	let script = `(${func})(${tabId})`;
-	chrome.tabs.executeScript(tabId, {code: script}, resolve);
-});
+let createTab = (url, err) => {
+	return new Promise((resolve, reject) => {
+		return chrome.tabs.create({url: url, selected: true}, resolve);
+	}).catch(() => Promise.reject(err));
+};
 
-let sleep = ms => new Promise(resolve => {
+let executeFunction = (tabId, func, err) => {
+	return new Promise((resolve, reject) => {
+		let script = `(${func})(${tabId})`;
+		chrome.tabs.executeScript(tabId, {code: script}, resolve);
+	}).catch(() => Promise.reject(err));
+};
+
+let sleep = ms => new Promise((resolve, reject) => {
 	setTimeout(resolve, ms);
 });
 
-let closeTab = tabId => new Promise((resolve, reject) => {
-	chrome.tabs.remove(tabId, resolve);
-});
+let closeTab = (tabId, err) => {
+	return new Promise((resolve, reject) => {
+		chrome.tabs.remove(tabId, resolve);
+	}).catch(() => Promise.reject(err));
+};
 
-let focusTab = tabId => new Promise((resolve, reject) => {
-	chrome.tabs.update(tabId, {selected: true}, resolve);
-});
+let focusTab = (tabId, err) => {
+	return new Promise((resolve, reject) => {
+		chrome.tabs.update(tabId, {selected: true}, resolve);
+	}).catch(() => Promise.reject(err));
+};
 
-chrome.browserAction.onClicked.addListener((originalTab) => {
-	const SEARCH_ACTIVITY_URL = "https://myactivity.google.com/privacyadvisor/search";
-	const SLEEP_DURATION = 1000;
-
-	createTab(SEARCH_ACTIVITY_URL)
-		.then(newTab => executeScript(newTab.id, clickDeleteAllButton))
-		.then(newTabIdArr => {
-			return executeScript(newTabIdArr[0], clickConfirmDeleteButton)
-				.then(() => sleep(SLEEP_DURATION))
-				.then(() => newTabIdArr);
-		})
-		.then(newTabIdArr => closeTab(newTabIdArr[0]))
-		.then(() => focusTab(originalTab.id));
-});
+let doesTabExist = (tabId) => {
+	return new Promise((resolve, reject) => {
+		chrome.tabs.get(tabId, resolve);
+	}).catch(() => false);
+};
 
 let clickDeleteAllButton = (tabId) => {
 	const button = document.querySelector("[jsname=dQulXd]");
 	if (button) {
 		button.click();
-	} else {
-
+		return tabId;
 	}
 
-	return tabId;
+	throw new Error();
 };
 
 let clickConfirmDeleteButton = (tabId) => {
 	const button = document.querySelector("[data-id=EBS5u]");
 	if (button) {
 		button.click();
-	} else {
-
+		return tabId;
 	}
 
-	return tabId;
+	throw new Error();
 };
