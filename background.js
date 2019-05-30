@@ -16,8 +16,8 @@ chrome.browserAction.onClicked.addListener((originalTab) => {
 			if (!newTab) return Promise.reject(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG);
 			newTabId = newTab.id;
 		})
-		.then(() => executeFunction(newTabId, formScript(clickDeleteAllButton, [newTabId]), DELETE_ERR + "\n" + NEG_RESULT_MSG))
-		.then(() => executeFunction(newTabId, formScript(clickConfirmDeleteButton, [newTabId]), DELETE_ERR + "\n" + NEG_RESULT_MSG))
+		.then(() => executeFunction(newTabId, formScript(clickDeleteAllButton), DELETE_ERR + "\n" + NEG_RESULT_MSG))
+		.then(() => executeFunction(newTabId, formScript(clickConfirmDeleteButton), DELETE_ERR + "\n" + NEG_RESULT_MSG))
 		.then(() => sleep(SLEEP_DURATION))
 		.then(() => closeTab(newTabId, CLOSE_ERR + "\n" + POS_RESULT_MSG))
 		.then(() => doesTabExist(originalTab.id))
@@ -64,39 +64,34 @@ let doesTabExist = (tabId) => {
 	}).catch(() => false);
 };
 
-let clickDeleteAllButton = (tabId) => {
+let clickDeleteAllButton = () => {
 	// EXTENSION WON'T WORK IF THESE CHANGE
 	var DELETE_ALL_SELECTOR = "jsname";
 	var DELETE_ALL_SELECTOR_VALUE = "dQulXd";
 
 	let button = document.querySelector("[" + DELETE_ALL_SELECTOR + "=" + CSS.escape(DELETE_ALL_SELECTOR_VALUE) + "]");
-	if (button) {
-		button.click();
-		return tabId;
-	}
-
-	throw new Error();
+	if (button) button.click();
 };
 
-let clickConfirmDeleteButton = (tabId) => {
+let clickConfirmDeleteButton = () => {
 	// EXTENSION WON'T WORK IF THESE CHANGE
 	var DELETE_CONFIRM_SELECTOR = "data-id";
 	var DELETE_CONFIRM_SELECTOR_VALUE = "EBS5u";
 
 	let button = document.querySelector("[" + DELETE_CONFIRM_SELECTOR + "=" + CSS.escape(DELETE_CONFIRM_SELECTOR_VALUE) + "]");
-	if (button) {
-		button.click();
-		return tabId;
-	}
-
-	throw new Error();
+	if (button) button.click();
 };
 
 let formScript = (func, args) => {
 	let script = "(" + func + ")";
-	args.forEach(element => {
-		script += "(" + element + ")";
-	});
+	if (args && args.length > 0) {
+		args.forEach(element => {
+			script += "(" + element + ")";
+		});
+	} else {
+		// call the function
+		script += "()";
+	}
 
 	script = `${script}`;
 	return script;
