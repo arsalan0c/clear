@@ -66,7 +66,11 @@ let doesTabExist = (tabId) => {
 };
 
 let clickDeleteAllButton = (tabId) => {
-	const button = document.querySelector("[jsname=dQulXd]");
+	// EXTENSION WON'T WORK IF THESE CHANGE
+	var DELETE_ALL_SELECTOR = "jsname";
+	var DELETE_ALL_SELECTOR_VALUE = "dQulXd";
+
+	let button = document.querySelector("[" + DELETE_ALL_SELECTOR + "=" + CSS.escape(DELETE_ALL_SELECTOR_VALUE) + "]");
 	if (button) {
 		button.click();
 		return tabId;
@@ -76,7 +80,11 @@ let clickDeleteAllButton = (tabId) => {
 };
 
 let clickConfirmDeleteButton = (tabId) => {
-	const button = document.querySelector("[data-id=EBS5u]");
+	// EXTENSION WON'T WORK IF THESE CHANGE
+	var DELETE_CONFIRM_SELECTOR = "data-id";
+	var DELETE_CONFIRM_SELECTOR_VALUE = "EBS5u";
+
+	let button = document.querySelector("[" + DELETE_CONFIRM_SELECTOR + "=" + CSS.escape(DELETE_CONFIRM_SELECTOR_VALUE) + "]");
 	if (button) {
 		button.click();
 		return tabId;
