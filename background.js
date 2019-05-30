@@ -16,8 +16,8 @@ chrome.browserAction.onClicked.addListener((originalTab) => {
 			if (!newTab) return Promise.reject(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG);
 			newTabId = newTab.id;
 		})
-		.then(() => executeFunction(newTabId, clickDeleteAllButton, DELETE_ERR + "\n" + NEG_RESULT_MSG))
-		.then(() => executeFunction(newTabId, clickConfirmDeleteButton, DELETE_ERR + "\n" + NEG_RESULT_MSG))
+		.then(() => executeFunction(newTabId, formScript(clickDeleteAllButton, [newTabId]), DELETE_ERR + "\n" + NEG_RESULT_MSG))
+		.then(() => executeFunction(newTabId, formScript(clickConfirmDeleteButton, [newTabId]), DELETE_ERR + "\n" + NEG_RESULT_MSG))
 		.then(() => sleep(SLEEP_DURATION))
 		.then(() => closeTab(newTabId, CLOSE_ERR + "\n" + POS_RESULT_MSG))
 		.then(() => doesTabExist(originalTab.id))
@@ -36,9 +36,8 @@ let createTab = (url, err) => {
 	}).catch(() => Promise.reject(err));
 };
 
-let executeFunction = (tabId, func, err) => {
+let executeFunction = (tabId, script, err) => {
 	return new Promise((resolve, reject) => {
-		let script = `(${func})(${tabId})`;
 		chrome.tabs.executeScript(tabId, {code: script}, resolve);
 	}).catch(() => Promise.reject(err));
 };
@@ -91,4 +90,14 @@ let clickConfirmDeleteButton = (tabId) => {
 	}
 
 	throw new Error();
+};
+
+let formScript = (func, args) => {
+	let script = "(" + func + ")";
+	args.forEach(element => {
+		script += "(" + element + ")";
+	});
+
+	script = `${script}`;
+	return script;
 };
