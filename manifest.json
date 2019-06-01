@@ -9,7 +9,7 @@
 	},
 	"background": {
 		"persistent": false,
-		"scripts": ["background.js"]
+		"page": "background.html"
 	},
 	"permissions": ["https://*/*", "http://*/*"]
 }
