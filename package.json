@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/arsalanc-v2/RemoveAllSavedGoogleSearches#readme",
   "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.13.0",
     "husky": "^2.3.0",
     "prettier": "1.17.1"
   },
