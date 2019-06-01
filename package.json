@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/arsalanc-v2/RemoveAllSavedGoogleSearches.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "arsalanc-v2",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/arsalanc-v2/RemoveAllSavedGoogleSearches/issues"
   },
