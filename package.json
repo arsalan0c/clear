@@ -22,5 +22,10 @@
     "husky": "^2.3.0",
     "prettier": "1.17.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-push": "prettier -c **/*.js && npx eslint **/*.js"
+    }
+  }
 }
