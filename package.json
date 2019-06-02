@@ -5,7 +5,8 @@
   "main": "background.js",
   "scripts": {
     "test": "npx mocha --require @babel/register",
-    "linter": "npx eslint '**/*.{js, json}'"
+    "linter": "npx eslint '**/*.{js, json}'",
+    "checks": "prettier --write '**/*.{js, json}' && npm run test && npm run linter"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,7 @@
   "dependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "prettier --write '**/*.{js, json}' && npm run linter && npm run test"
+      "pre-commit": "npm run checks"
     }
   }
 }
