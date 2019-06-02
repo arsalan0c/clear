@@ -1,7 +1,7 @@
 // index.js
 
-require('babel-register')({
-   presets: [ 'es2015' ]
+require("babel-register")({
+  presets: ["es2015"]
 });
 
-require('./test.js');
+require("./test.js");
