@@ -12,8 +12,7 @@ import {
   formScript
 } from "./helper.js";
 
-const SEARCH_ACTIVITY_URL =
-  "https://myactivity.google.com/privacyadvisor/search";
+const SEARCH_ACTIVITY_URL = "https://myactivity.google.com/privacyadvisor/search";
 const SLEEP_DURATION = 1000;
 
 const POS_RESULT_MSG = "Result: your search activity has been deleted.";
@@ -26,45 +25,27 @@ const RETURN_ERR = "Error: failed to switch back to original tab.";
 chrome.browserAction.onClicked.addListener(originalTab => {
   let newTabId;
 
-  createTab(
-    SEARCH_ACTIVITY_URL,
-    new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG)
-  )
+  createTab(SEARCH_ACTIVITY_URL, new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG))
     .then(newTab => {
       if (!newTab) {
-        return Promise.reject(
-          new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG)
-        );
+        return Promise.reject(new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG));
       }
       newTabId = newTab.id;
     })
-    .then(() =>
-      executeFunction(
-        newTabId,
-        formScript(clickDeleteAllButton),
-        new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG)
-      )
-    )
-    .then(() =>
-      executeFunction(
-        newTabId,
-        formScript(clickConfirmDeleteButton),
-        new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG)
-      )
-    )
+    .then(() => executeFunction(newTabId, formScript(clickDeleteAllButton),
+      new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG)))
+
+    .then(() => executeFunction(newTabId, formScript(clickConfirmDeleteButton),
+      new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG)))
+
     .then(() => sleep(SLEEP_DURATION))
-    .then(() =>
-      closeTab(newTabId, new Error(CLOSE_ERR + "\n" + POS_RESULT_MSG))
-    )
+    .then(() => closeTab(newTabId, new Error(CLOSE_ERR + "\n" + POS_RESULT_MSG)))
     .then(() => doesTabExist(originalTab.id))
     .then(doesOriginalTabExist => {
       // non-critical step
       // if tab does not exist, assumes user closed deliberately
       if (doesOriginalTabExist) {
-        return focusTab(
-          originalTab.id,
-          new Error(RETURN_ERR + "\n" + POS_RESULT_MSG)
-        );
+        return focusTab(originalTab.id, new Error(RETURN_ERR + "\n" + POS_RESULT_MSG));
       }
     })
     .then(() => alert(POS_RESULT_MSG))
