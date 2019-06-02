@@ -4,7 +4,8 @@
   "description": "A chrome extension to remove all saved searches from this page https://myactivity.google.com/privacyadvisor/search",
   "main": "background.js",
   "scripts": {
-    "test": "npx mocha --require @babel/register"
+    "test": "npx mocha --require @babel/register",
+    "linter": "npx eslint '**/*.{js, json}'"
   },
   "repository": {
     "type": "git",
@@ -31,7 +32,7 @@
   "dependencies": {},
   "husky": {
     "hooks": {
-      "pre-push": "prettier -c **/*.js && npx eslint **/*.js && npm test"
+      "pre-commit": "prettier --write '**/*.{js, json}' && npm run linter && npm run test"
     }
   }
 }
