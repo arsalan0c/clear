@@ -1,7 +1,7 @@
 // test.js
 
-import { formScript } from "./helper.js";
 import { expect } from "chai";
+import { formScript } from "../src/helper.js";
 
 describe("form script test", function() {
   describe("without arguments", function() {
