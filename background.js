@@ -38,7 +38,7 @@ chrome.browserAction.onClicked.addListener(originalTab => {
     .then(() => executeFunction(newTabId, formScript(clickConfirmDeleteButton),
       new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG)))
 
-    .then(() => sleep(SLEEP_DURATION))
+    .then(() => sleep(SLEEP_DURATION)) // wait for search activity to be deleted
     .then(() => closeTab(newTabId, new Error(CLOSE_ERR + "\n" + POS_RESULT_MSG)))
     .then(() => doesTabExist(originalTab.id))
     .then(doesOriginalTabExist => {
