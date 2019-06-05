@@ -1,14 +1,20 @@
 // background.js
 
+// main script
+
 import {
   createTab,
   executeFunction,
-  sleep,
   closeTab,
-  focusTab,
+  focusTab
+} from "./chrome.js";
+
+import {
+  sleep,
+  callback,
+  formScript,
   clickDeleteAllButton,
-  clickConfirmDeleteButton,
-  formScript
+  clickConfirmDeleteButton
 } from "./helper.js";
 
 const SEARCH_ACTIVITY_URL = "https://myactivity.google.com/privacyadvisor/search";
@@ -32,14 +38,14 @@ chrome.browserAction.onClicked.addListener(originalTab => {
       newTabId = newTab.id;
     })
     .then(() => executeFunction(newTabId, formScript(clickDeleteAllButton),
-      new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG)))
+      new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG), callback))
 
     .then(() => executeFunction(newTabId, formScript(clickConfirmDeleteButton),
-      new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG)))
+      new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG), callback))
 
     .then(() => sleep(SLEEP_DURATION)) // wait for search activity to be deleted
-    .then(() => closeTab(newTabId, new Error(CLOSE_ERR + "\n" + POS_RESULT_MSG)))
-    .then(() => focusTab(originalTab.id, new Error(RETURN_ERR + "\n" + POS_RESULT_MSG)))
+    .then(() => closeTab(newTabId, new Error(CLOSE_ERR + "\n" + POS_RESULT_MSG), callback))
+    .then(() => focusTab(originalTab.id, new Error(RETURN_ERR + "\n" + POS_RESULT_MSG), callback))
     .then(() => alert(POS_RESULT_MSG))
     .catch(err => alert(err.message));
 });
