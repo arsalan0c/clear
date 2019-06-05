@@ -22,12 +22,14 @@ const SLEEP_DURATION = 1000;
 
 const POS_RESULT_MSG = "Result: your search activity has been deleted.";
 const NEG_RESULT_MSG = "Result: your search activity remains with Google.";
+const NOT_SIGNED_IN_ERR = "Error: please sign in to your Google account.";
 const CREATE_TAB_ERR = "Error: failed to create a new tab.";
 const DELETE_ERR = "Error: failed to delete.";
 const CLOSE_ERR = "Error: failed to close created tab.";
 const RETURN_ERR = "Error: failed to switch back to original tab.";
 
 chrome.browserAction.onClicked.addListener(originalTab => {
+  // new tab created on every click
   let newTabId;
 
   createTab(SEARCH_ACTIVITY_URL, new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG))
@@ -35,8 +37,10 @@ chrome.browserAction.onClicked.addListener(originalTab => {
       if (!newTab) {
         return Promise.reject(new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG));
       }
+      // assigned for subsequent use
       newTabId = newTab.id;
     })
+    .then(() => executeFunction(newTabId, formScript(), new Error(NOT_SIGNED_IN_ERR + "\n" + NEG_RESULT_MSG), callback)) // execute empty function to check if user is signed in
     .then(() => executeFunction(newTabId, formScript(clickDeleteAllButton),
       new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG), callback))
 
