@@ -2,12 +2,7 @@
 
 // main script
 
-import {
-  createTab,
-  executeFunction,
-  closeTab,
-  focusTab
-} from "./chrome.js";
+import { createTab, executeFunction, closeTab, focusTab } from "./chrome.js";
 
 import {
   sleep,
@@ -17,7 +12,8 @@ import {
   clickConfirmDeleteButton
 } from "./helper.js";
 
-const SEARCH_ACTIVITY_URL = "https://myactivity.google.com/privacyadvisor/search";
+const SEARCH_ACTIVITY_URL =
+  "https://myactivity.google.com/privacyadvisor/search";
 const SLEEP_DURATION = 1000;
 
 const POS_RESULT_MSG = "Result: your search activity has been deleted.";
@@ -32,24 +28,56 @@ chrome.browserAction.onClicked.addListener(originalTab => {
   // new tab created on every click
   let newTabId;
 
-  createTab(SEARCH_ACTIVITY_URL, new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG))
+  createTab(
+    SEARCH_ACTIVITY_URL,
+    new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG)
+  )
     .then(newTab => {
       if (!newTab) {
-        return Promise.reject(new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG));
+        return Promise.reject(
+          new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG)
+        );
       }
       // assigned for subsequent use
       newTabId = newTab.id;
     })
-    .then(() => executeFunction(newTabId, formScript(), new Error(NOT_SIGNED_IN_ERR + "\n" + NEG_RESULT_MSG), callback)) // execute empty function to check if user is signed in
-    .then(() => executeFunction(newTabId, formScript(clickDeleteAllButton),
-      new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG), callback))
+    .then(() =>
+      executeFunction(
+        newTabId,
+        formScript(),
+        new Error(NOT_SIGNED_IN_ERR + "\n" + NEG_RESULT_MSG),
+        callback
+      )
+    ) // execute empty function to check if user is signed in
+    .then(() =>
+      executeFunction(
+        newTabId,
+        formScript(clickDeleteAllButton),
+        new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG),
+        callback
+      )
+    )
 
-    .then(() => executeFunction(newTabId, formScript(clickConfirmDeleteButton),
-      new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG), callback))
+    .then(() =>
+      executeFunction(
+        newTabId,
+        formScript(clickConfirmDeleteButton),
+        new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG),
+        callback
+      )
+    )
 
     .then(() => sleep(SLEEP_DURATION)) // wait for search activity to be deleted
-    .then(() => closeTab(newTabId, new Error(CLOSE_ERR + "\n" + POS_RESULT_MSG), callback))
-    .then(() => focusTab(originalTab.id, new Error(RETURN_ERR + "\n" + POS_RESULT_MSG), callback))
+    .then(() =>
+      closeTab(newTabId, new Error(CLOSE_ERR + "\n" + POS_RESULT_MSG), callback)
+    )
+    .then(() =>
+      focusTab(
+        originalTab.id,
+        new Error(RETURN_ERR + "\n" + POS_RESULT_MSG),
+        callback
+      )
+    )
     .then(() => alert(POS_RESULT_MSG))
     .catch(err => alert(err.message));
 });
