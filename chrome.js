@@ -30,9 +30,4 @@ const focusTab = (tabId, err, callback) => {
   }).catch(() => Promise.reject(err));
 };
 
-export {
-  createTab,
-  executeFunction,
-  closeTab,
-  focusTab
-}
+export { createTab, executeFunction, closeTab, focusTab };
