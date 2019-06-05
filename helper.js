@@ -8,7 +8,9 @@ const createTab = (url, err) => {
 
 const executeFunction = (tabId, script, err) => {
   return new Promise((resolve, reject) => {
-    chrome.tabs.executeScript(tabId, { code: script }, resolve);
+    chrome.tabs.executeScript(tabId, { code: script }, () =>
+      chrome.runtime.lastError ? reject(err) : resolve()
+    );
   }).catch(() => Promise.reject(err));
 };
 
@@ -19,20 +21,18 @@ const sleep = ms =>
 
 const closeTab = (tabId, err) => {
   return new Promise((resolve, reject) => {
-    chrome.tabs.remove(tabId, resolve);
+    chrome.tabs.remove(tabId, () =>
+      chrome.runtime.lastError ? reject(err) : resolve()
+    );
   }).catch(() => Promise.reject(err));
 };
 
 const focusTab = (tabId, err) => {
   return new Promise((resolve, reject) => {
-    chrome.tabs.update(tabId, { selected: true }, resolve);
+    chrome.tabs.update(tabId, { selected: true }, () =>
+      chrome.runtime.lastError ? reject(err) : resolve()
+    );
   }).catch(() => Promise.reject(err));
-};
-
-const doesTabExist = tabId => {
-  return new Promise((resolve, reject) => {
-    chrome.tabs.get(tabId, resolve);
-  }).catch(() => false);
 };
 
 const clickDeleteAllButton = () => {
@@ -86,7 +86,6 @@ export {
   sleep,
   closeTab,
   focusTab,
-  doesTabExist,
   clickDeleteAllButton,
   clickConfirmDeleteButton,
   formScript

@@ -6,7 +6,6 @@ import {
   sleep,
   closeTab,
   focusTab,
-  doesTabExist,
   clickDeleteAllButton,
   clickConfirmDeleteButton,
   formScript
@@ -40,14 +39,7 @@ chrome.browserAction.onClicked.addListener(originalTab => {
 
     .then(() => sleep(SLEEP_DURATION)) // wait for search activity to be deleted
     .then(() => closeTab(newTabId, new Error(CLOSE_ERR + "\n" + POS_RESULT_MSG)))
-    .then(() => doesTabExist(originalTab.id))
-    .then(doesOriginalTabExist => {
-      // non-critical step
-      // if tab does not exist, assumes user closed deliberately
-      if (doesOriginalTabExist) {
-        return focusTab(originalTab.id, new Error(RETURN_ERR + "\n" + POS_RESULT_MSG));
-      }
-    })
+    .then(() => focusTab(originalTab.id, new Error(RETURN_ERR + "\n" + POS_RESULT_MSG)))
     .then(() => alert(POS_RESULT_MSG))
     .catch(err => alert(err.message));
 });
