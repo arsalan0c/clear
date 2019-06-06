@@ -13,7 +13,7 @@ const callback = (resolve, reject) => res =>
 // assumes func is a syntactically valid function
 // args is an optional array. If present, its length should match the number of parameters of func
 const formScript = (func, args) => {
-  console.assert(typeof(func) === "function");
+  console.assert(typeof func === "function");
 
   let script = "(" + func + ")";
   if (!args) {
