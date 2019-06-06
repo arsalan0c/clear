@@ -4,18 +4,17 @@
 
 import { createTab, executeFunction, closeTab, focusTab } from "./chrome.js";
 
-import {
-  sleep,
-  callback,
-  formScript,
-  clickDeleteAllButton,
-  clickConfirmDeleteButton
-} from "./helper.js";
+import { sleep, callback, formScript, clickButton } from "./helper.js";
 
+// EXTENSION WON'T WORK IF THESE CHANGE
 const SEARCH_ACTIVITY_URL =
   "https://myactivity.google.com/privacyadvisor/search";
-const SLEEP_DURATION = 1000;
+const DELETE_ALL_SELECTOR = "jsname";
+const DELETE_ALL_SELECTOR_VALUE = "dQulXd";
+const DELETE_CONFIRM_SELECTOR = "data-id";
+const DELETE_CONFIRM_SELECTOR_VALUE = "EBS5u";
 
+// to show to users within alerts
 const POS_RESULT_MSG = "Result: your search activity has been deleted.";
 const NEG_RESULT_MSG = "Result: your search activity remains with Google.";
 const NOT_SIGNED_IN_ERR = "Error: please sign in to your Google account.";
@@ -23,6 +22,8 @@ const CREATE_TAB_ERR = "Error: failed to create a new tab.";
 const DELETE_ERR = "Error: failed to delete.";
 const CLOSE_ERR = "Error: failed to close created tab.";
 const RETURN_ERR = "Error: failed to switch back to original tab.";
+
+const SLEEP_DURATION = 1000;
 
 chrome.browserAction.onClicked.addListener(originalTab => {
   // new tab created on every click
@@ -53,16 +54,21 @@ chrome.browserAction.onClicked.addListener(originalTab => {
     .then(() =>
       executeFunction(
         newTabId,
-        formScript(clickDeleteAllButton),
+        formScript(clickButton, [
+          DELETE_ALL_SELECTOR,
+          DELETE_ALL_SELECTOR_VALUE
+        ]),
         new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG),
         callback
       )
     )
-
     .then(() =>
       executeFunction(
         newTabId,
-        formScript(clickConfirmDeleteButton),
+        formScript(clickButton, [
+          DELETE_CONFIRM_SELECTOR,
+          DELETE_CONFIRM_SELECTOR_VALUE
+        ]),
         new Error(DELETE_ERR + "\n" + NEG_RESULT_MSG),
         callback
       )

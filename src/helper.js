@@ -33,40 +33,12 @@ const formScript = (func, args) => {
   return script;
 };
 
-const clickDeleteAllButton = () => {
-  // EXTENSION WON'T WORK IF THESE CHANGE
-  const DELETE_ALL_SELECTOR = "jsname";
-  const DELETE_ALL_SELECTOR_VALUE = "dQulXd";
-
+const clickButton = (selector, value) => {
   const button = document.querySelector(
-    "[" +
-      DELETE_ALL_SELECTOR +
-      "=" +
-      CSS.escape(DELETE_ALL_SELECTOR_VALUE) +
-      "]"
+    "[" + selector + "=" + CSS.escape(value) + "]"
   );
+
   if (button) button.click();
 };
 
-const clickConfirmDeleteButton = () => {
-  // EXTENSION WON'T WORK IF THESE CHANGE
-  const DELETE_CONFIRM_SELECTOR = "data-id";
-  const DELETE_CONFIRM_SELECTOR_VALUE = "EBS5u";
-
-  const button = document.querySelector(
-    "[" +
-      DELETE_CONFIRM_SELECTOR +
-      "=" +
-      CSS.escape(DELETE_CONFIRM_SELECTOR_VALUE) +
-      "]"
-  );
-  if (button) button.click();
-};
-
-export {
-  sleep,
-  callback,
-  formScript,
-  clickDeleteAllButton,
-  clickConfirmDeleteButton
-};
+export { sleep, callback, formScript, clickButton };
