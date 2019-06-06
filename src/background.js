@@ -30,7 +30,8 @@ chrome.browserAction.onClicked.addListener(originalTab => {
 
   createTab(
     SEARCH_ACTIVITY_URL,
-    new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG)
+    new Error(CREATE_TAB_ERR + "\n" + NEG_RESULT_MSG),
+    callback
   )
     .then(newTab => {
       if (!newTab) {

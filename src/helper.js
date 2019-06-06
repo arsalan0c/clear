@@ -7,8 +7,8 @@ const sleep = ms =>
     setTimeout(resolve, ms);
   });
 
-const callback = (resolve, reject) => () =>
-  chrome.runtime.lastError ? reject() : resolve();
+const callback = (resolve, reject) => res =>
+  chrome.runtime.lastError ? reject() : resolve(res);
 
 const formScript = (func, args) => {
   let script = "(" + func + ")";

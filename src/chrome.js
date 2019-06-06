@@ -2,9 +2,12 @@
 
 // contains functions dealing with the chrome api, to be used in background.js
 
-const createTab = (url, err) => {
+const createTab = (url, err, callback) => {
   return new Promise((resolve, reject) => {
-    return chrome.tabs.create({ url: url, selected: true }, resolve);
+    return chrome.tabs.create(
+      { url: url, selected: true },
+      callback(resolve, reject)
+    );
   }).catch(() => Promise.reject(err));
 };
 
