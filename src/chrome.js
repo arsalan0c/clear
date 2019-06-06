@@ -13,6 +13,11 @@ const createTab = (url, err, callback) => {
 
 const executeFunction = (tabId, script, err, callback) => {
   return new Promise((resolve, reject) => {
+    // messages are only sent in case of unacceptable behaviour in script execution
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      reject(err);
+    });
+
     chrome.tabs.executeScript(
       tabId,
       { code: script },

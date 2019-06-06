@@ -38,7 +38,12 @@ const clickButton = (selector, value) => {
     "[" + selector + "=" + CSS.escape(value) + "]"
   );
 
-  if (button) button.click();
+  const hasButton = button ? true : false;
+  if (hasButton) {
+    button.click();
+  } else {
+    chrome.runtime.sendMessage({ hasButton: hasButton });
+  }
 };
 
 export { sleep, callback, formScript, clickButton };
