@@ -16,15 +16,15 @@ import {
 } from "../src/attributes.js";
 
 describe("existence of delete buttons test", function() {
-  // stick to puppeteer's default timeouts
-  this.timeout(0); // eslint-disable-line no-invalid-this
   const SIGN_IN_PAGE =
     "https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/%3Fgws_rd%3Dssl";
   let email;
   let password;
   let page;
 
-  before(function() {
+  beforeEach(function() {
+    // stick to puppeteer's default timeouts
+    this.timeout(0); // eslint-disable-line no-invalid-this
     if (!process.env.GOOGLE_EMAIL)
       throw new Error("GOOGLE_EMAIL environment variable is not set");
     if (!process.env.GOOGLE_PASSWORD)
@@ -106,6 +106,8 @@ describe("existence of delete buttons test", function() {
   }
 
   it("should exist", function() {
+    // stick to puppeteer's default timeouts
+    this.timeout(0); // eslint-disable-line no-invalid-this
     return new Promise(function(resolve, reject) {
       doesConfirmDeleteButtonExist(
         DELETE_ALL_SELECTOR,
@@ -122,6 +124,8 @@ describe("existence of delete buttons test", function() {
   });
 
   it("should not exist - wrong first selector", function() {
+    // stick to puppeteer's default timeouts
+    this.timeout(0); // eslint-disable-line no-invalid-this
     return new Promise(function(resolve, reject) {
       doesConfirmDeleteButtonExist(
         "wrongSelector",
@@ -144,6 +148,8 @@ describe("existence of delete buttons test", function() {
   });
 
   it("should not exist - wrong second value", function() {
+    // stick to puppeteer's default timeouts
+    this.timeout(0); // eslint-disable-line no-invalid-this
     return new Promise(function(resolve, reject) {
       doesConfirmDeleteButtonExist(
         DELETE_ALL_SELECTOR,
