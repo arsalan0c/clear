@@ -1,11 +1,11 @@
-// test.js
+// helperTest.js
 
 import { expect } from "chai";
 import { formScript } from "../src/helper.js";
 
-// describes tests in the format of <nature of the function>_<nature of the arguments>
-describe("form script test", function() {
-  describe("normalfunction_withoutarguments", function() {
+// describes tests in the format of <nature of the function>-<nature of the arguments>
+describe("formScript test", function() {
+  describe("normal function - without arguments", function() {
     it("should return 'good day'", function() {
       const str = "good day";
       const returnStr = function() {
@@ -17,7 +17,7 @@ describe("form script test", function() {
     });
   });
 
-  describe("normalfunction_singleargument", function() {
+  describe("normal function - single argument", function() {
     it("should return 'good day'", function() {
       const str = "good day";
       const returnStr = function(str) {
@@ -25,12 +25,11 @@ describe("form script test", function() {
       };
 
       const script = formScript(returnStr, [str]);
-      console.log(eval(script));
       expect(eval(script)).to.equal(returnStr(str));
     });
   });
 
-  describe("normalfunction_multiplearguments", function() {
+  describe("normal function - multiple arguments", function() {
     it("should return 'good day'", function() {
       const str1 = "good";
       const str2 = "day";
@@ -43,7 +42,7 @@ describe("form script test", function() {
     });
   });
 
-  describe("emptyfunction_withoutarguments", function() {
+  describe("empty function - without arguments", function() {
     it("should return undefined", function() {
       const empty = function() {};
       const script = formScript(empty);
@@ -51,7 +50,7 @@ describe("form script test", function() {
     });
   });
 
-  describe("emptyfunction_emptyarray", function() {
+  describe("empty function - empty array", function() {
     it("should return undefined", function() {
       const empty = function() {};
       const script = formScript(empty, []);
