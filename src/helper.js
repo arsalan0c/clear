@@ -42,7 +42,10 @@ const clickButton = (selector, value) => {
   if (hasButton) {
     button.click();
   } else {
-    chrome.runtime.sendMessage({ hasButton: hasButton });
+    chrome.runtime.sendMessage({
+      scriptError:
+        "no button found with selector: " + selector + " and value: " + value
+    });
   }
 };
 
