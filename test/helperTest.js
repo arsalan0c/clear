@@ -1,5 +1,7 @@
 // helperTest.js
 
+// tests for functions in helper.js
+
 import { expect } from "chai";
 import { formScript } from "../src/helper.js";
 
