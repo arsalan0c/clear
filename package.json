@@ -4,9 +4,10 @@
   "description": "A chrome extension to remove all saved searches from this page https://myactivity.google.com/privacyadvisor/search",
   "main": "background.js",
   "scripts": {
-    "test": "npx mocha --require @babel/register --exit --recursive",
+    "test":  "npx mocha --require @babel/register --exit --recursive",
+    "travistest": "npx mocha --require @babel/register --exit --recursive './test/**/!(deleteTest).js'",
     "linter": "npx eslint '**/*.js'",
-    "checks": "prettier --write '**/*.{js, json}' && npm run test && npm run linter"
+    "checks": "prettier --write '**/*.{js, json}' && npm run travistest && npm run linter"
   },
   "repository": {
     "type": "git",
