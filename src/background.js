@@ -2,17 +2,15 @@
 
 // main script
 
+import {
+  SEARCH_ACTIVITY_URL,
+  DELETE_ALL_SELECTOR,
+  DELETE_ALL_SELECTOR_VALUE,
+  DELETE_CONFIRM_SELECTOR,
+  DELETE_CONFIRM_SELECTOR_VALUE
+} from "./attributes.js";
 import { createTab, executeFunction, closeTab, focusTab } from "./chrome.js";
-
 import { sleep, callback, formScript, clickButton } from "./helper.js";
-
-// EXTENSION WON'T WORK IF THESE CHANGE
-const SEARCH_ACTIVITY_URL =
-  "https://myactivity.google.com/privacyadvisor/search";
-const DELETE_ALL_SELECTOR = "jsname";
-const DELETE_ALL_SELECTOR_VALUE = "dQulXd";
-const DELETE_CONFIRM_SELECTOR = "data-id";
-const DELETE_CONFIRM_SELECTOR_VALUE = "EBS5u";
 
 // to show to users within alerts
 const POS_RESULT_MSG = "Result: your search activity has been deleted.";
