@@ -44,11 +44,11 @@ chrome.browserAction.onClicked.addListener(originalTab => {
     .then(() =>
       executeFunction(
         newTabId,
-        formScript(),
+        formScript(), // execute empty function to check if user is signed in
         new Error(NOT_SIGNED_IN_ERR + "\n" + NEG_RESULT_MSG),
         callback
       )
-    ) // execute empty function to check if user is signed in
+    )
     .then(() =>
       executeFunction(
         newTabId,
