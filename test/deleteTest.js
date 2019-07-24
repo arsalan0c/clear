@@ -22,7 +22,7 @@ describe("existence of delete buttons test", function() {
   let password;
   let page;
 
-  beforeEach(function() {
+  before(function() {
     // stick to puppeteer's default timeouts
     this.timeout(0); // eslint-disable-line no-invalid-this
     if (!process.env.GOOGLE_EMAIL)
