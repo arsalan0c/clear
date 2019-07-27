@@ -10,11 +10,13 @@ const sleep = ms =>
 const callback = (resolve, reject) => res =>
   chrome.runtime.lastError ? reject() : resolve(res);
 
-// func: required. A function
-// args: optional. An array. If present, its length should match the number of parameters of func
+/**
+ * Transforms a function along with arguments into a script which can be executed
+ * @param {function} func
+ * @param {?Array} args - optional arguments for func. If present, its length should match the number of parameters of func
+ * @return {string} script - JS code to be executed
+ */
 const formScript = (func, args) => {
-  console.assert(typeof func === "function");
-
   let script = "(" + func + ")";
   if (!args) {
     script += "()";
@@ -38,15 +40,15 @@ const clickButton = (selector, value) => {
     "[" + selector + "=" + CSS.escape(value) + "]"
   );
 
-  const hasButton = button ? true : false;
-  if (hasButton) {
-    button.click();
-  } else {
+  if (!button) {
     chrome.runtime.sendMessage({
       scriptError:
         "no button found with selector: " + selector + " and value: " + value
     });
+    return;
   }
+
+  button.click();
 };
 
 export { sleep, callback, formScript, clickButton };
