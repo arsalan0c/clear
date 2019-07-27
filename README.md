@@ -3,7 +3,13 @@
 
 # RemoveAllSavedGoogleSearches
 Buttonifies the removal of all of one's Google searches stored by Google, as a Chrome extension for convenience.
+
 ![](demo.gif)
+
+## Behaviour
+* Returns to the tab that was active prior to clicking
+* Displays an alert box at the end indicating whether the deletion was successful or not
+* Stops execution if you are not signed-in (a requirement)
 
 ## Usage
 1. Clone this repository: `git clone https://github.com/arsalanc-v2/RemoveAllSavedGoogleSearches`
