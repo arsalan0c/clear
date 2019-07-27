@@ -16,3 +16,11 @@ Buttonifies the removal of all of one's Google searches stored by Google, as a C
 2. Navigate to `chrome://extensions`
 3. Click on `Load unpacked`
 4. Select the cloned folder
+
+## Running Tests
+To also run the tests that check for the delete buttons on this page https://myactivity.google.com/privacyadvisor/search (via [Puppeteer](https://github.com/GoogleChrome/puppeteer)), sign-in to a Google account is required:  
+1. `export GOOGLE_EMAIL={an email address associated with a Google account}`
+2. `export GOOGLE_PASS={password for the above email address}`
+3. `npm run test`
+
+To only run all other tests: `npm run travistest`
