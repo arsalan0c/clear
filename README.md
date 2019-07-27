@@ -2,7 +2,7 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # RemoveAllSavedGoogleSearches
-Buttonifies the removal of all of one's Google searches stored by Google, as a Chrome extension for convenience.
+> Buttonifies the removal of all of one's Google searches stored by Google, as a Chrome extension for convenience.
 
 ![](demo.gif)
 
