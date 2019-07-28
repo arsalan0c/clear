@@ -21,6 +21,9 @@
 To also run the tests that check for the delete buttons on this page https://myactivity.google.com/privacyadvisor/search (via [Puppeteer](https://github.com/GoogleChrome/puppeteer)), sign-in to a Google account is required:  
 1. `export GOOGLE_EMAIL={an email address associated with a Google account}`
 2. `export GOOGLE_PASSWORD={password for the above email address}`
-3. `npm run test`
+3. `npm install`
+4. `npm run test`
 
-To only run all other tests: `npm run travistest`
+To only run all other tests: 
+1. `npm install`
+2. `npm run travistest`
