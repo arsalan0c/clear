@@ -6,6 +6,9 @@
 
 ![](demo.gif)
 
+## Performance
+Takes < 2 seconds.
+
 ## Behaviour
 * Returns to the tab that was active prior to clicking
 * Displays an alert box at the end indicating whether the deletion was successful or not
