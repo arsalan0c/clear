@@ -5,7 +5,7 @@
   "main": "background.js",
   "scripts": {
     "test":  "npx mocha --require @babel/register --exit --recursive",
-    "travistest": "npx mocha --require @babel/register --exit --recursive './test/**/!(deleteTest).js'",
+    "citest": "npx mocha --require @babel/register --exit --recursive './test/**/!(deleteTest).js'",
     "linter": "npx eslint '**/*.js'",
     "checks": "prettier --write '**/*.{js, json}' && npm run travistest && npm run linter"
   },
