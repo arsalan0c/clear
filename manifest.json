@@ -1,11 +1,11 @@
 {
-  "name": "RemoveAllSavedGoogleSearches",
+  "name": "clear",
   "version": "1.0",
   "description": "Remove all saved Google searches by clicking on this extension while signed in.",
   "manifest_version": 2,
   "author": "Arsalan Cheema",
   "browser_action": {
-    "default_title": "RemoveAllSavedGoogleSearches"
+    "default_title": "clear"
   },
   "background": {
     "persistent": false,
